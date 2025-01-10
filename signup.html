@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - LearnEase</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f4f4f9;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(90deg, rgba(47, 79, 79, 0.9), rgba(72, 61, 139, 0.9), rgba(25, 25, 112, 0.9));
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .input-field {
+            padding: 10px;
+            margin: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Create an Account</h1>
+    <p>Sign up to start using LearnEase</p>
+</header>
+
+<nav>
+    <a href="index.html">Back to Homepage</a>
+</nav>
+
+<div class="container">
+    <h2>Sign Up</h2>
+    <div class="form-container">
+        <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+        <input type="password" id="password" class="input-field" placeholder="Enter your password" required>
+        <button class="btn" onclick="signup()">Sign Up</button>
+    </div>
+</div>
+
+<script>
+    function signup() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (email && password) {
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPassword', password);
+            alert('Account created successfully!');
+            window.location.href = 'get-started.html';  // Redirect after signup
+        } else {
+            alert('Please fill in both fields');
+        }
+    }
+</script>
+
+</body>
+</html>
+
