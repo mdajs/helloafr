@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started - LearnEase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f4f4f9;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 12px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        .error-message {
+            color: red;
+            margin-top: 15px;
+        }
+        .signup-link {
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        .signup-link a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signup-link a:hover {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Get Started with LearnEase</h1>
+</header>
+
+<div class="container">
+    <h2>Log In or Sign Up</h2>
+    <form id="getStartedForm">
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <button type="submit">Get Started</button>
+    </form>
+    <p class="signup-link">
+        Don't have an account? <a href="signup.html">Sign up here</a>
+    </p>
+    <p class="error-message" id="errorMessage"></p>
+</div>
+
+<script>
+    const getStartedForm = document.getElementById('getStartedForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Handle Get Started form submission (Login or Signup)
+    getStartedForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting normally
+
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        // Get the stored email and password from localStorage
+        const storedEmail = localStorage.getItem('userEmail');
+        const storedPassword = localStorage.getItem('userPassword');
+
+        // Check if email and password match the stored data
+        if (!email || !password) {
+            errorMessage.textContent = "Please fill in both fields.";
+            return;
+        }
+
+        // Login check
+        if (email === storedEmail && password === storedPassword) {
+            // Successful login, redirect to tools page
+            window.location.href = 'online-tools.html';
+        } else {
+            // If email or password doesn't match, show an error message
+            errorMessage.textContent = "Email or password is incorrect.";
+        }
+
+        // If no user is registered yet, allow signup process
+        if (!storedEmail) {
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPassword', password);  // Store password (plaintext for demo purposes)
+            window.location.href = 'online-tools.html';  // Redirect to tools page after signup
+        }
+    });
+</script>
+
+</body>
+</html>
+
