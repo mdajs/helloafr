@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whiteboard - LearnEase</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f4f4f9;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(90deg, rgba(47, 79, 79, 0.9), rgba(72, 61, 139, 0.9), rgba(25, 25, 112, 0.9));
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        #whiteboard {
+            border: 1px solid #ccc;
+            width: 80%;
+            height: 500px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .tool-btn {
+            padding: 10px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .tool-btn:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Interactive Whiteboard</h1>
+    <p>Use the whiteboard to teach and share ideas with your students</p>
+</header>
+
+<nav>
+    <a href="index.html">Back to Homepage</a>
+</nav>
+
+<div class="container">
+    <div class="toolbar">
+        <button class="tool-btn" onclick="enablePen()">Pen</button>
+        <button class="tool-btn" onclick="enableHighlighter()">Highlighter</button>
+        <button class="tool-btn" onclick="enableLine()">Line</button>
+        <button class="tool-btn" onclick="enableEraser()">Eraser</button>
+        <button class="tool-btn" onclick="clearBoard()">Clear</button>
+    </div>
+
+    <canvas id="whiteboard"></canvas>
+</div>
+
+<script>
+    let canvas = document.getElementById('whiteboard');
+    let context = canvas.getContext('2d');
+    let drawing = false;
+    let tool = 'pen';
+    let startX, startY, endX, endY; // For line tool
+
+    // Set canvas dimensions
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = 500;
+
+    // Event listeners for drawing
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+    canvas.addEventListener('click', drawLineOnClick); // For line tool
+
+    function startDrawing(e) {
+        drawing = true;
+        context.beginPath();
+        context.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        if (tool === 'pen') {
+            context.lineTo(e.offsetX, e.offsetY);
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+        } else if (tool === 'highlighter') {
+            context.lineTo(e.offsetX, e.offsetY);
+            context.strokeStyle = 'rgba(255, 255, 0, 0.5)';
+            context.lineWidth = 10;
+        }
+        context.stroke();
+    }
+
+    function stopDrawing() {
+        drawing = false;
+        context.closePath();
+    }
+
+    function enablePen() {
+        tool = 'pen';
+    }
+
+    function enableHighlighter() {
+        tool = 'highlighter';
+    }
+
+    function enableLine() {
+        tool = 'line';
+    }
+
+    function enableEraser() {
+        tool = 'eraser';
+    }
+
+    function clearBoard() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Handle line tool (clicking two points)
+    function drawLineOnClick(e) {
+        if (tool === 'line') {
+            if (!startX && !startY) {
+                // First click, store start point
+                startX = e.offsetX;
+                startY = e.offsetY;
+            } else {
+                // Second click, store end point and draw the line
+                endX = e.offsetX;
+                endY = e.offsetY;
+                context.beginPath();
+                context.moveTo(startX, startY);
+                context.lineTo(endX, endY);
+                context.strokeStyle = 'black';
+                context.lineWidth = 2;
+                context.stroke();
+                // Reset points after drawing
+                startX = startY = endX = endY = null;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
+
